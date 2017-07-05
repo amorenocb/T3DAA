@@ -2,11 +2,12 @@
 ---
 CC4102 Diseño y Analisis de Algoritmos: Tarea III 
 
-## Hipotesis
+## Hipotesis
+
 Mas que nada se asume un cierto formato para cargar graficos. Este debe contener en la primera linea el numero de nodos, seguido de un espacio y la probabilidad p de que se encuentre una arista entre dos nodos u y v cualesquiera (La señalada en el enunciado).
 Luego de esto en cada linea siguiente se encuentra dos numeros separados por un espacio. Donde cada numero representa el identificador de un nodo del grafo. Esto nos lleva a nuestra segunda suposicion: todos los graficos representan sus nodos con identificadores numericos, por lo cual si se desea probar con otro input sera necesario pre procesar para mapear cada nodo a un identificador unico.
 
-## Diseño
+## Diseño
 
 Se opto por utilizar **listas de adyacencia**. Estas se representaron por un ArrayList que contiene instancias de la clase **Vertex**. Esta representa cada nodo del grafo y desde ella se pueden obtener distintas caracteristicas del nodo, como por ejemplo su grado e identificador. Cada instancia de esta clase contiene ademas un campo llamado **adyacencyList** que contiene una lista de enteros, los cuales representan todos los nodos conectados a el. Asi si por ejemplo se desea tomar una arista de manera aleatoria del grafo el proceso el siguiente:
 
