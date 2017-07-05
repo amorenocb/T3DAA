@@ -14,12 +14,13 @@ import static java.nio.file.StandardOpenOption.CREATE;
 
 public class GraphGenerator {
 
-    public static AdjacencyMatrix generate(int numberOfNodes, int p){
-        AdjacencyMatrix graph = new AdjacencyMatrix(numberOfNodes);
+    public static AdjacencyList generate(int numberOfNodes, double p){
+        AdjacencyList graph = new AdjacencyList(numberOfNodes);
         for (int i = 0; i < numberOfNodes; i++) {
+            Vertex v = graph.getVertex(i);
             for (int j = 0; j < numberOfNodes; j++) {
-                if(Math.random() > (1 - p)){
-                    graph.addEdge(i,j);
+                if(Math.random() > (1 - p) && i != j){
+                    v.addNeighbour(j);
                 }
             }
         }
@@ -27,7 +28,7 @@ public class GraphGenerator {
         return graph;
     }
 
-    public static void saveGraph(AdjacencyMatrix aGraph, String outputFileName) throws IOException{
+    public static void saveGraph(AdjacencyList aGraph, String outputFileName) throws IOException{
         Path outputFilePath = Paths.get(outputFileName);
         StringBuilder line = new StringBuilder();
 
@@ -36,32 +37,34 @@ public class GraphGenerator {
         line.append(System.lineSeparator());
         Files.write(outputFilePath,line.toString().getBytes(), CREATE, APPEND);
 
-        for (int i = 0; i < numberOfNodes; i++) {
-            ArrayList<Integer> neighbors = aGraph.getNodeNeighbors(i);
-            for (int neighbor: neighbors) {
+        ArrayList<Vertex> adjList = aGraph.getAdjacencyList();
+
+        for (Vertex v: adjList) {
+            ArrayList<Integer> neighbours = v.getNeighbours();
+            for (int neighbour: neighbours) {
                 line.setLength(0);
-                line.append(i);
-                line.append(",");
-                line.append(neighbor);
+                line.append(v.getVertexIdentifier());
+                line.append(" ");
+                line.append(neighbour);
                 line.append(System.lineSeparator());
                 Files.write(outputFilePath, line.toString().getBytes(), CREATE, APPEND);
             }
         }
     }
 
-    public static AdjacencyMatrix loadGraph(String inputFileName){
-        AdjacencyMatrix aGraph = null;
+
+    public static AdjacencyList loadGraph(String inputFileName){
+        AdjacencyList aGraph = null;
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFileName))) {
-
             int numberOfNodes = Integer.parseInt(br.readLine());
-
-            aGraph = new AdjacencyMatrix(numberOfNodes);
+            aGraph = new AdjacencyList(numberOfNodes);
 
             String line;
             while ((line = br.readLine()) != null) {
-                String [] nodes = line.split(",");
-                aGraph.addEdge(Integer.parseInt(nodes[0]), Integer.parseInt(nodes[1]));
+                String [] nodes = line.split(" ");
+                Vertex v = aGraph.getVertex(Integer.parseInt(nodes[0]));
+                v.addNeighbour(Integer.parseInt(nodes[1]));
             }
 
         } catch (IOException e) {
@@ -70,5 +73,6 @@ public class GraphGenerator {
 
         return aGraph;
     }
+
 
 }
