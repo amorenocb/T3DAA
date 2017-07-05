@@ -17,11 +17,11 @@ import static java.nio.file.StandardOpenOption.CREATE;
  * for generating, saving and loading graph to and from memory. Specifically from .txt files.
  * The format generated is as follows:
  *
- * Number of nodes
- * Node0 NodeJ
- * Node0 NodeI
- * Node1 NodeL
- * Node1 NodeM
+ * (Number of nodes) (Probability of having a node between any two given vertexs).
+ * (Node0) (NodeJ)
+ * (Node0) (NodeI)
+ * (Node1) (NodeL)
+ * (Node1) (NodeM)
  *
  * Where the first line indicates that there is an edge between Node0 and NodeJ.
  */
@@ -35,7 +35,7 @@ public class GraphGenerator {
      * @return AdjacencyList representing the generated graph.
      */
     public static AdjacencyList generate(int numberOfNodes, double p){
-        AdjacencyList graph = new AdjacencyList(numberOfNodes);
+        AdjacencyList graph = new AdjacencyList(numberOfNodes, p);
         for (int i = 0; i < numberOfNodes; i++) {
             Vertex v = graph.getVertex(i);
             for (int j = 0; j < numberOfNodes; j++) {
@@ -57,12 +57,14 @@ public class GraphGenerator {
      * @param outputFileName : Name of the .txt file where the graph will be stored.
      * @throws IOException
      */
-    public static void saveGraph(AdjacencyList aGraph, String outputFileName) throws IOException{
+    public static void saveGraph(AdjacencyList aGraph, String outputFileName, double p) throws IOException{
         Path outputFilePath = Paths.get(outputFileName);
         StringBuilder line = new StringBuilder();
 
         int numberOfNodes = aGraph.getNumberOfNodes();
         line.append(numberOfNodes);
+        line.append(" ");
+        line.append(p);
         line.append(System.lineSeparator());
         Files.write(outputFilePath,line.toString().getBytes(), CREATE, APPEND);
 
@@ -92,10 +94,13 @@ public class GraphGenerator {
         AdjacencyList aGraph = null;
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFileName))) {
-            int numberOfNodes = Integer.parseInt(br.readLine());
-            aGraph = new AdjacencyList(numberOfNodes);
+            String line = br.readLine().toString();
 
-            String line;
+            int numberOfNodes = Integer.parseInt(line.split(" ")[0]);
+            double p = Double.parseDouble(line.split(" ")[1]);
+            aGraph = new AdjacencyList(numberOfNodes, p);
+
+
             while ((line = br.readLine()) != null) {
                 String [] nodes = line.split(" ");
                 Vertex v = aGraph.getVertex(Integer.parseInt(nodes[0]));
