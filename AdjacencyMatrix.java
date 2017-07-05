@@ -82,4 +82,30 @@ public class AdjacencyMatrix {
     public int getNumberOfNodes(){
         return numberOfNodes;
     }
+
+    public ArrayList<Integer> getValidNodes(){
+        return validNodes;
+    }
+
+    public ArrayList<Integer> getNodeNeighbors(int v){
+        ArrayList neighbours = new ArrayList();
+        for (Integer i: validNodes) {
+            if (adjMat[v][i.intValue()] == 1){
+                neighbours.add(i);
+            }
+        }
+
+        return neighbours;
+    }
+
+    public int getMaximumDegreeVertex(){
+        int max = Integer.MIN_VALUE;
+        for (Integer i: validNodes) {
+            if(getDegreeOfVertex(i.intValue()) > max){
+                max = i.intValue();
+            }
+        }
+
+        return max;
+    }
 }
