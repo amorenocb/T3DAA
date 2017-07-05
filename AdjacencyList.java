@@ -16,6 +16,7 @@ public class AdjacencyList {
     private ArrayList<Vertex> adjacencyList;
     private Random random = new Random();
     private int numberOfNodes;
+    private double probabilityOfEdge;
 
     /**
      * Constructor: Given a number of nodes V we initialize the
@@ -23,13 +24,22 @@ public class AdjacencyList {
      * don't have any neighbours assigned to them.
      * @param V : Number of Nodes in the graph.
      */
-    public AdjacencyList(int V){
+    public AdjacencyList(int V, double p){
         adjacencyList = new ArrayList<>();
         numberOfNodes = V;
+        probabilityOfEdge = p;
         for (int i = 0; i < numberOfNodes; i++) {
             Vertex v = new Vertex(i);
             adjacencyList.add(v);
         }
+    }
+
+    /**
+     * Returns the probability of the graph of having an edge between any two vertexs.
+     * @return double probability of edge.
+     */
+    public double getProbabilityOfEdge(){
+        return probabilityOfEdge;
     }
 
     /**
