@@ -19,6 +19,9 @@ Se opto por utilizar **listas de adyacencia**. Estas se representaron por un Arr
 
 La idea es entonces generar inputs con el script **InputGenerator**. Luego guardar estos en una carpeta con un nombre M. Luego al correr el script **Main** se le entrega M como argumento. Este recorre la carpeta con los inputs y para cada uno utiliza la clase **GraphGenerator** para cargar un grafo desde un archivo .txt hacia una instancia de la clase **AdyacencyMatrix**, la cual representa al grafo. Luego de esto se le asigna este grafo a uno de los dos algoritmos implementados : **TwoApproximation** o **NotApproximation** con el metodo **.setGraph(AdyacencyMatrix aGraph)** y por ultimo se obtiene el vertex cover como un ArrayList de enteros, los cuales representan los identificadores de los vertices que pertenecen al vertex cover.
 
-## Generacion de Pruebas
+## Generacion de Pruebas
 
 Utilizando el script **InputGenerator** se logro generar grafos de prueba de hasta 2^15 nodos 5 valores de probabilidades distinto para cada uno: 0.005, 0.008, 0.01, 0.025, 0.05. Se opto por estos valores pues si se utilizan valores muy elevados la maquina virtual de Java se queda sin memoria para almacenar tal cantidad de aristas.
+
+Link a Inputs generados:
+https://mega.nz/#!tpByXbpI!yO9HAPYw2BFNiLsDG2Xyk6Cmwja-avSlAtlY6aOwz0I
