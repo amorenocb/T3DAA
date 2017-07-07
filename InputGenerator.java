@@ -9,11 +9,12 @@ public class InputGenerator {
         int [] sizes = {10,11,12,13,14,15,16,17};
 
         for (int size: sizes) {
-            double [] probabilities = {0.005, 0.05, 0.3, 0.6, 0.9};
+            double [] probabilities = {0.005, 0.008, 0.01, 0.025, 0.05};
             for (double p: probabilities) {
                 String name = size+"-"+p+".txt";
                 AdjacencyList aGraph = GraphGenerator.generate((int)Math.pow(2,size), p);
                 GraphGenerator.saveGraph(aGraph, name, p);
+                System.out.println("Finished with: "+name);
             }
         }
 
